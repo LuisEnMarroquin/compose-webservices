@@ -13,7 +13,7 @@ router.get("/", async function(req, res, next) {
   const dbInfoJson = JSON.stringify(dbInfo, null, 4);
 
   res.render("index", { title: "Express", dbInfo: dbInfoJson });
-  db.close();
+  client.close();
 });
 
 module.exports = router;
