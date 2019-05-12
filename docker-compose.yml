@@ -25,7 +25,7 @@ services:
       - db
     image: wordpress:latest
     ports:
-      - 8000
+      - 80
       # - "8000:80"
     restart: always
     environment:
