@@ -4,7 +4,7 @@ stages:
   - deploy
 
 variables:
-  URL_NAME: wordpress-alpine
+  URL_NAME: wordpress
   PROJECT_NAME: wordpress_example
   BASE_URL: marroquin.dev
   USER_EMAIL: luis@marroquin.dev
