@@ -8,6 +8,3 @@ COPY . /opt/app
 
 # Set dir as working dir
 WORKDIR /opt/app
-
-# Expose Port 80
-# EXPOSE 80
