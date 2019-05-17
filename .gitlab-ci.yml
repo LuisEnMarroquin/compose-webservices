@@ -1,7 +1,7 @@
 image: tmaier/docker-compose:latest
 
 stages:
-  - deploy
+  - deployment
 
 variables:
   URL_NAME: wordpress
@@ -10,21 +10,21 @@ variables:
   USER_EMAIL: luis@marroquin.dev
 
 deploy:
-  stage: deploy
+  stage: deployment
   script:
     - echo 'Deploying Production'
     - docker-compose --project-name ${PROJECT_NAME}_prod --file docker-compose.yml up -d --build --force-recreate --remove-orphans
   environment:
     name: Production
     url: https://${URL_NAME}.${BASE_URL}
-    on_stop: stop_production
+    on_stop: stop
   only:
     - master
   tags:
     - env-production
 
 stop:
-  stage: deploy
+  stage: deployment
   when: manual
   script:
     - echo 'Stopping Production'
