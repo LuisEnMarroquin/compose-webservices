@@ -5,6 +5,9 @@ networks:
     external:
       name: nginx-proxy
 
+volumes:
+  db_data: {}
+
 services:
   db:
     image: mysql:5.7
@@ -14,8 +17,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_USER: wordpress11
+      MYSQL_PASSWORD: wordpress22
   wordpress:
     depends_on:
       - db
@@ -32,5 +35,3 @@ services:
       VIRTUAL_HOST: ${URL_NAME}.${BASE_URL}
       LETSENCRYPT_HOST: ${URL_NAME}.${BASE_URL}
       LETSENCRYPT_EMAIL: ${USER_EMAIL}
-volumes:
-  db_data: {}
