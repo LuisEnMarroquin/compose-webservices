@@ -10,28 +10,28 @@ services:
     image: mysql:5.7
     volumes:
       - db_data:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
-      # Nginx SSL Proxy
-      VIRTUAL_HOST: ${URL_NAME}.${BASE_URL}
-      LETSENCRYPT_HOST: ${URL_NAME}.${BASE_URL}
-      LETSENCRYPT_EMAIL: ${USER_EMAIL}
   wordpress:
     depends_on:
       - db
     image: wordpress:latest
     ports:
-      - 80
-      # - "8000:80"
-    restart: always
+      - 80 # Production
+      # - "8000:80" # Development
+    restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      # Nginx SSL Proxy
+      VIRTUAL_HOST: ${URL_NAME}.${BASE_URL}
+      LETSENCRYPT_HOST: ${URL_NAME}.${BASE_URL}
+      LETSENCRYPT_EMAIL: ${USER_EMAIL}
 volumes:
   db_data: {}

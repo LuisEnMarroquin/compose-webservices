@@ -9,11 +9,11 @@ variables:
   BASE_URL: marroquin.dev
   USER_EMAIL: luis@marroquin.dev
 
-deploy_production:
+deploy:
   stage: deploy
   script:
-    - echo 'Deploying Application (production)'
-    - docker-compose --project-name ${PROJECT_NAME}_prod --file docker-compose.yml up -d --force-recreate --remove-orphans
+    - echo 'Deploying Production'
+    - docker-compose --project-name ${PROJECT_NAME}_prod --file docker-compose.yml up -d --build --force-recreate --remove-orphans
   environment:
     name: Production
     url: https://${URL_NAME}.${BASE_URL}
@@ -23,11 +23,11 @@ deploy_production:
   tags:
     - env-production
 
-stop_production:
+stop:
   stage: deploy
   when: manual
   script:
-    - echo 'Stopping Application (production)'
+    - echo 'Stopping Production'
     - docker-compose --project-name ${PROJECT_NAME}_prod --file docker-compose.yml stop
   environment:
     name: Production

@@ -10,4 +10,4 @@ COPY . /opt/app
 WORKDIR /opt/app
 
 # Expose Port 80
-EXPOSE 80
+# EXPOSE 80
