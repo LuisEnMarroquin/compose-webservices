@@ -53,8 +53,8 @@ services:
     environment:
       PMA_HOST: db:3306
       PMA_ARBITRARY: 1
-      # PMA_USER: wordpress # Same as wordpress:WORDPRESS_DB_USER
-      # PMA_PASSWORD: wordpress # Same as wordpress:WORDPRESS_DB_PASSWORD
+      PMA_USER: wordpress # Same as wordpress:WORDPRESS_DB_USER
+      PMA_PASSWORD: wordpress # Same as wordpress:WORDPRESS_DB_PASSWORD
       # Nginx SSL Proxy
       VIRTUAL_HOST: db.${URL_NAME}.${BASE_URL}
       LETSENCRYPT_HOST: db.${URL_NAME}.${BASE_URL}

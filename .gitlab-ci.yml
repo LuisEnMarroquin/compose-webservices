@@ -10,7 +10,7 @@ variables:
   USER_EMAIL: luis@marroquin.dev
   # Dont edit the following
   APP_PORT: 80
-  DB_PORT: 80
+  DB_PORT: 9000
 
 deploy:
   stage: deployment
