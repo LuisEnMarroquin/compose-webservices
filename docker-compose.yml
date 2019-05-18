@@ -49,7 +49,7 @@ services:
       - db
     restart: unless-stopped
     ports:
-      - ${DB_PORT:-9777:80} # Default production
+      - ${DB_PORT:-9000:80} # Default production
     environment:
       PMA_HOST: db:3306
       PMA_ARBITRARY: 1
