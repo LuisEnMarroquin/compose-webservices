@@ -20,7 +20,7 @@ services:
       internal:
     ports:
       - 3306:3306
-      - 33060:33060
+      # - 33060:33060
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: wordpress
