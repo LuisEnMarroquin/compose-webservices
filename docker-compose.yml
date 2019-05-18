@@ -20,18 +20,19 @@ services:
       internal:
     ports:
       - 3306:3306
+      - 33060:33060
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress11
       MYSQL_PASSWORD: wordpress22
+      MYSQL_ROOT_PASSWORD: somewordpressexamplepass
   wordpress:
     depends_on:
       - db
     image: wordpress:latest
     ports:
-      - ${APP_PORT:-8000:80} # Default production
+      - ${APP_PORT:-9770:80} # Default production
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: db:3306
@@ -52,8 +53,8 @@ services:
     environment:
       PMA_HOST: db:3306
       PMA_ARBITRARY: 1
-      PMA_USER: wordpress # Same as wordpress:WORDPRESS_DB_USER
-      PMA_PASSWORD: wordpress # Same as wordpress:WORDPRESS_DB_PASSWORD
+      # PMA_USER: wordpress # Same as wordpress:WORDPRESS_DB_USER
+      # PMA_PASSWORD: wordpress # Same as wordpress:WORDPRESS_DB_PASSWORD
       # Nginx SSL Proxy
       VIRTUAL_HOST: db.${URL_NAME}.${BASE_URL}
       LETSENCRYPT_HOST: db.${URL_NAME}.${BASE_URL}
