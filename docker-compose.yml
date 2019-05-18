@@ -4,6 +4,8 @@ networks:
   default:
     external:
       name: nginx-proxy
+  internal:
+    internal: true
 
 volumes:
   db_data: {}
@@ -13,6 +15,11 @@ services:
     image: mysql:5.7
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      default: {}
+      internal:
+    ports:
+      - 3306:3306
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
@@ -24,14 +31,30 @@ services:
       - db
     image: wordpress:latest
     ports:
-      - ${PORT:-8000:80} # Default production
+      - ${APP_PORT:-8000:80} # Default production
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress # Same as phpmyadmin:PMA_USER
+      WORDPRESS_DB_PASSWORD: wordpress # Same as phpmyadmin:PMA_PASSWORD
       # Nginx SSL Proxy
       VIRTUAL_HOST: ${URL_NAME}.${BASE_URL}
       LETSENCRYPT_HOST: ${URL_NAME}.${BASE_URL}
+      LETSENCRYPT_EMAIL: ${USER_EMAIL}
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - ${DB_PORT:-9777:80} # Default production
+    environment:
+      PMA_HOST: db:3306
+      PMA_ARBITRARY: 1
+      PMA_USER: wordpress # Same as wordpress:WORDPRESS_DB_USER
+      PMA_PASSWORD: wordpress # Same as wordpress:WORDPRESS_DB_PASSWORD
+      # Nginx SSL Proxy
+      VIRTUAL_HOST: db.${URL_NAME}.${BASE_URL}
+      LETSENCRYPT_HOST: db.${URL_NAME}.${BASE_URL}
       LETSENCRYPT_EMAIL: ${USER_EMAIL}
