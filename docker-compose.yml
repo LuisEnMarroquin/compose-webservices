@@ -32,7 +32,7 @@ services:
       - db
     image: wordpress:latest
     ports:
-      - ${APP_PORT:-9770:80} # Default production
+      - ${APP_PORT:-8000:80} # Default production
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: db:3306
