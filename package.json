@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "docker-compose --project-name wordpress up -d --build --force-recreate --remove-orphans",
+    "stop": "docker-compose stop",
+    "conf": "docker-compose config",
+    "rm": "docker-compose rm",
+    "vrm": "docker volume rm wordpress_db_data"
+  }
+}
+  
