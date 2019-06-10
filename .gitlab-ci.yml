@@ -24,7 +24,7 @@ deploy:
   only:
     - master
   tags:
-    - env-production
+    - production
 
 stop:
   stage: deployment
@@ -38,4 +38,4 @@ stop:
   only:
     - master
   tags:
-    - env-production
+    - production
