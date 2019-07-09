@@ -1,7 +1,7 @@
 {
   "editor.tabSize": 2,
   "files.exclude": {
-    "**/.DS_store": true,
+    "**/.DS_Store": true,
     "**/.directory": true,
     "**/desktop.ini": true
   }

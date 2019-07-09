@@ -4,9 +4,8 @@ stages:
   - deployment
 
 variables:
-  URL_NAME: wordpress
-  PROJECT_NAME: wordpress_example
-  BASE_URL: marroquin.dev
+  PROJECT_NAME: wordpress
+  BASE_URL: wordpress.marroquin.dev
   USER_EMAIL: luis@marroquin.dev
   # Dont edit the following
   APP_PORT: 80
@@ -16,10 +15,10 @@ deploy:
   stage: deployment
   script:
     - echo 'Deploying Production'
-    - docker-compose --project-name ${PROJECT_NAME}_prod --file docker-compose.yml up -d --build --force-recreate --remove-orphans
+    - docker-compose --project-name ${PROJECT_NAME}_master --file docker-compose.yml up -d --build --force-recreate --remove-orphans
   environment:
     name: Production
-    url: https://${URL_NAME}.${BASE_URL}
+    url: https://${BASE_URL}
     on_stop: stop
   only:
     - master
@@ -31,7 +30,7 @@ stop:
   when: manual
   script:
     - echo 'Stopping Production'
-    - docker-compose --project-name ${PROJECT_NAME}_prod --file docker-compose.yml stop
+    - docker-compose --project-name ${PROJECT_NAME}_master --file docker-compose.yml stop
   environment:
     name: Production
     action: stop
