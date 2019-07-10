@@ -1,71 +1,73 @@
 version: '3.3'
 
 networks:
-  default:
-    external:
-      name: nginx-proxy
+  external:
+    name: nginx-proxy
   internal:
     internal: true
 
 volumes:
-  db_data: {}
+  mysql:
+  wordpress:
 
 services:
-  db:
-    image: mysql:5.7
-    volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      internal:
-    ports:
-      - 3306:3306
-    restart: unless-stopped
+  mysql:
     environment:
       MYSQL_DATABASE: ${db}
       MYSQL_USER: ${user}
       MYSQL_PASSWORD: ${pass}
       MYSQL_ROOT_PASSWORD: ${root}
+    image: mysql:5.7
+    networks:
+      internal:
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    volumes:
+      - mysql:/var/lib/mysql
   wordpress:
     depends_on:
-      - db
+      - mysql
     image: wordpress:latest
     ports:
-      - ${APP_PORT:-8000:80}
+      - ${WP_PORT:-8000:80}
     networks:
-      default: {}
-      internal:
+      - external
+      - internal
     restart: unless-stopped
     environment:
       WORDPRESS_DB_NAME: ${db}
       WORDPRESS_DB_HOST: db # Database service name
       WORDPRESS_DB_USER: ${user}
       WORDPRESS_DB_PASSWORD: ${pass}
-      
       # Nginx SSL Proxy
-      VIRTUAL_HOST: ${BASE_URL}
-      LETSENCRYPT_HOST: ${BASE_URL}
-      LETSENCRYPT_EMAIL: ${USER_EMAIL}
+      VIRTUAL_HOST: ${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_HOST: ${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
+    volumes:
+      - wordpress:/var/www/html
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
     depends_on:
-      - db
-    restart: unless-stopped
-    ports:
-      - ${DB_PORT:-9000:80}
-    networks:
-      default: {}
-      internal:
+      - mysql
+      - wordpress
     environment:
       PMA_HOST: db:3306
-      PMA_ARBITRARY: 1
+      PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page.
       # Manual login
       MYSQL_USER: ${user}
       MYSQL_PASSWORD: ${pass}
       MYSQL_ROOT_PASSWORD: ${root}
+      # Nginx SSL Proxy
+      VIRTUAL_HOST: db.${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_HOST: db.${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
       # Auto login
       # PMA_USER: ${user}
       # PMA_PASSWORD: ${pass}
-      # Nginx SSL Proxy
-      VIRTUAL_HOST: db.${BASE_URL}
-      LETSENCRYPT_HOST: db.${BASE_URL}
-      LETSENCRYPT_EMAIL: ${USER_EMAIL}
+    image: phpmyadmin/phpmyadmin:latest
+    networks:
+      - external
+      - internal
+    ports:
+      - ${DB_PORT:-9000:80}
+    restart: unless-stopped

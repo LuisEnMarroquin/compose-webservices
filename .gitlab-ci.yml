@@ -1,40 +1,65 @@
 image: tmaier/docker-compose:latest
 
 stages:
-  - deployment
+  - deploy
 
 variables:
-  PROJECT_NAME: wordpress
-  BASE_URL: wordpress.marroquin.dev
-  USER_EMAIL: luis@marroquin.dev
+  MAIN_URL: wordpress
+  BASE_URL: marroquin.dev
+  BRANCHES: ${CI_COMMIT_REF_SLUG}
+  MY_EMAIL: luis@marroquin.dev
   # Dont edit the following
-  APP_PORT: 80
+  WP_PORT: 80
   DB_PORT: 9000
 
-deploy:
-  stage: deployment
-  script:
-    - echo 'Deploying Production'
-    - docker-compose --project-name ${PROJECT_NAME}_master --file docker-compose.yml up -d --build --force-recreate --remove-orphans
+.variables_master: &variables
+  stage: deploy
+  tags:
+    - production
+
+deploy_master:
+  <<: *variables
   environment:
-    name: Production
-    url: https://${BASE_URL}
+    url: https://${MAIN_URL}.${BASE_URL}
+    name: master
     on_stop: stop
   only:
     - master
-  tags:
-    - production
-
-stop:
-  stage: deployment
-  when: manual
   script:
-    - echo 'Stopping Production'
-    - docker-compose --project-name ${PROJECT_NAME}_master --file docker-compose.yml stop
+    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
+stop_master:
+  <<: *variables
   environment:
-    name: Production
+    name: master
     action: stop
   only:
     - master
-  tags:
-    - production
+  script:
+    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} stop
+  when: manual
+  
+deploy_dynamic:
+  <<: *variables
+  environment:
+    url: https://${CI_COMMIT_REF_SLUG}.${MAIN_URL}.${BASE_URL}
+    name: master
+    on_stop: stop
+  except:
+    - master
+  only:
+    - branches
+  script:
+    - export 
+    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
+stop_dynamic:
+  <<: *variables
+  environment:
+    name: master
+    action: stop
+  except:
+    - master
+  only:
+    - branches
+  script:
+    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} stop
+  when: manual
