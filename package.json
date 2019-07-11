@@ -8,4 +8,3 @@
     "vol": "docker volume rm wordpress_mysql"
   }
 }
-  

@@ -21,7 +21,7 @@ services:
     networks:
       - internal
     ports:
-      - 3306:3306 # Database port
+      - 3306:3306
     restart: unless-stopped
     volumes:
       - mysql:/var/lib/mysql
@@ -35,30 +35,32 @@ services:
       - external
       - internal
     restart: unless-stopped
-    env_file:
-      - env/${BRANCHES}.env
     environment:
       WORDPRESS_DB_NAME: ${db}
       WORDPRESS_DB_HOST: mysql # Database service name
       WORDPRESS_DB_USER: ${user}
       WORDPRESS_DB_PASSWORD: ${pass}
-      LETSENCRYPT_EMAIL: ${MY_EMAIL} # Nginx SSL Proxy
+      # Nginx SSL Proxy
+      VIRTUAL_HOST: ${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_HOST: ${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
     volumes:
       - wordpress:/var/www/html
   phpmyadmin:
     depends_on:
       - mysql
       - wordpress
-    env_file:
-      - env/${BRANCHES}.env
     environment:
-      PMA_HOST: mysql:3306 # Database service name : # Database port
+      PMA_HOST: mysql:3306 # Database service name : database port
       PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page.
       # Manual login
       MYSQL_USER: ${user}
       MYSQL_PASSWORD: ${pass}
       MYSQL_ROOT_PASSWORD: ${root}
-      LETSENCRYPT_EMAIL: ${MY_EMAIL} # Nginx SSL Proxy
+      # Nginx SSL Proxy
+      VIRTUAL_HOST: db.${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_HOST: db.${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
       # Auto login
       # PMA_USER: ${user}
       # PMA_PASSWORD: ${pass}
