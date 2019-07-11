@@ -5,7 +5,7 @@
     "stop": "docker-compose stop",
     "conf": "docker-compose config",
     "rm": "docker-compose rm",
-    "vol": "docker volume rm wordpress_db_data"
+    "vol": "docker volume rm wordpress_mysql"
   }
 }
   

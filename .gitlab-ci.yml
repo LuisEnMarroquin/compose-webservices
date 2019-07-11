@@ -6,14 +6,13 @@ stages:
 variables:
   MAIN_URL: wordpress
   BASE_URL: marroquin.dev
-  BRANCHES: ${CI_COMMIT_REF_SLUG}
   MY_EMAIL: luis@marroquin.dev
+  BRANCHES: ${CI_COMMIT_REF_SLUG}
   # Dont edit the following
   WP_PORT: 80
   DB_PORT: 9000
-  FULL_URL: ${CI_COMMIT_REF_SLUG}.${MAIN_URL}.${BASE_URL}
 
-.variables_master: &variables
+.variables: &variables
   stage: deploy
   tags:
     - production
@@ -31,8 +30,8 @@ deploy_master:
 stop_master:
   <<: *variables
   environment:
-    name: master
     action: stop
+    name: master
   only:
     - master
   script:
@@ -54,8 +53,8 @@ deploy_dynamic:
 stop_dynamic:
   <<: *variables
   environment:
-    name: dynamic
     action: stop
+    name: dynamic
   except:
     - master
   only:
