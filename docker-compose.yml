@@ -36,7 +36,7 @@ services:
       - internal
     restart: unless-stopped
     env_file:
-      - env/${BRANCHES:master}.env
+      - env/${BRANCHES}.env
     environment:
       WORDPRESS_DB_NAME: ${db}
       WORDPRESS_DB_HOST: mysql # Database service name
@@ -50,7 +50,7 @@ services:
       - mysql
       - wordpress
     env_file:
-      - env/${BRANCHES:master}.env
+      - env/${BRANCHES}.env
     environment:
       PMA_HOST: mysql:3306 # Database service name : # Database port
       PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page.
