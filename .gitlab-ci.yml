@@ -11,6 +11,7 @@ variables:
   # Dont edit the following
   WP_PORT: 80
   DB_PORT: 9000
+  FULL_URL: ${CI_COMMIT_REF_SLUG}.${MAIN_URL}.${BASE_URL}
 
 .variables_master: &variables
   stage: deploy
@@ -22,7 +23,7 @@ deploy_master:
   environment:
     url: https://${MAIN_URL}.${BASE_URL}
     name: master
-    on_stop: stop
+    on_stop: stop_master
   only:
     - master
   script:
@@ -42,19 +43,18 @@ deploy_dynamic:
   <<: *variables
   environment:
     url: https://${CI_COMMIT_REF_SLUG}.${MAIN_URL}.${BASE_URL}
-    name: master
-    on_stop: stop
+    name: dynamic
+    on_stop: stop_dynamic
   except:
     - master
   only:
     - branches
   script:
-    - export 
     - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
 stop_dynamic:
   <<: *variables
   environment:
-    name: master
+    name: dynamic
     action: stop
   except:
     - master
