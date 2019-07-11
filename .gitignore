@@ -5,4 +5,4 @@ desktop.ini
 
 # Lock files
 yarn.lock
-package.json
+package-lock.json
