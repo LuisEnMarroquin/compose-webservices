@@ -7,13 +7,12 @@ variables:
   MAIN_URL: wordpress
   BASE_URL: marroquin.dev
   BRANCHES: ${CI_COMMIT_REF_SLUG}
-  MY_EMAIL: luis@marroquin.dev
+  MY_EMAIL: luismarroquin1999@outlook.com
   # Dont edit the following
   WP_PORT: 80
   DB_PORT: 9000
-  FULL_URL: ${CI_COMMIT_REF_SLUG}.${MAIN_URL}.${BASE_URL}
 
-.variables_master: &variables
+.variables_all: &variables
   stage: deploy
   tags:
     - production
