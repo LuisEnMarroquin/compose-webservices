@@ -11,10 +11,10 @@ volumes:
   wordpress:
 
 services:
-  mysql:
+  mysql: # Database service name
     environment:
-      MYSQL_DATABASE: ${db}
       MYSQL_USER: ${user}
+      MYSQL_DATABASE: ${db}
       MYSQL_PASSWORD: ${pass}
       MYSQL_ROOT_PASSWORD: ${root}
     image: mysql:5.7
@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
     environment:
       WORDPRESS_DB_NAME: ${db}
-      WORDPRESS_DB_HOST: db # Database service name
+      WORDPRESS_DB_HOST: mysql # Database service name
       WORDPRESS_DB_USER: ${user}
       WORDPRESS_DB_PASSWORD: ${pass}
       # Nginx SSL Proxy
@@ -51,7 +51,7 @@ services:
       - mysql
       - wordpress
     environment:
-      PMA_HOST: db:3306 # Database service name : database port
+      PMA_HOST: mysql:3306 # Database service name : database port
       PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page.
       # Manual login
       MYSQL_USER: ${user}
