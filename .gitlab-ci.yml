@@ -27,7 +27,7 @@ deploy_master:
   only:
     - master
   script:
-    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
+    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
 stop_master:
   <<: *variables
   environment:
@@ -36,7 +36,7 @@ stop_master:
   only:
     - master
   script:
-    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} stop
+    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} stop
   when: manual
   
 deploy_dynamic:
@@ -50,7 +50,7 @@ deploy_dynamic:
   only:
     - branches
   script:
-    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
+    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
 stop_dynamic:
   <<: *variables
   environment:
@@ -61,5 +61,5 @@ stop_dynamic:
   only:
     - branches
   script:
-    - docker-compose --project-name ${MAIN_URL}${BASE_URL}_${CI_COMMIT_REF_SLUG} stop
+    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} stop
   when: manual
