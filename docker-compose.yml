@@ -1,0 +1,15 @@
+version: "3.7"
+
+networks:
+  internal: 
+    internal: true
+
+services:
+  app:
+    build: 
+      context: .
+    networks:
+      - internal
+    restart: unless-stopped
+    volumes:
+      - opt/app:.
