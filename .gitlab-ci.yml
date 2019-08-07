@@ -6,8 +6,8 @@ stages:
 variables:
   MAIN_URL: wordpress
   BASE_URL: marroquin.dev
-  BRANCHES: ${CI_COMMIT_REF_SLUG}
-  MY_EMAIL: luismarroquin1999@outlook.com
+  MY_EMAIL: luis@marroquin.dev
+  BRANCH: ${CI_COMMIT_REF_SLUG}
   # Dont edit the following
   WP_PORT: 80
   DB_PORT: 9000
@@ -26,7 +26,7 @@ deploy_master:
   only:
     - master
   script:
-    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} up -d --force-recreate --remove-orphans
 stop_master:
   <<: *variables
   environment:
@@ -35,13 +35,13 @@ stop_master:
   only:
     - master
   script:
-    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} stop
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} stop
   when: manual
   
 deploy_dynamic:
   <<: *variables
   environment:
-    url: https://${CI_COMMIT_REF_SLUG}.${MAIN_URL}.${BASE_URL}
+    url: https://${BRANCH}.${MAIN_URL}.${BASE_URL}
     name: dynamic
     on_stop: stop_dynamic
   except:
@@ -49,7 +49,7 @@ deploy_dynamic:
   only:
     - branches
   script:
-    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} up -d --force-recreate --remove-orphans
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} up -d --force-recreate --remove-orphans
 stop_dynamic:
   <<: *variables
   environment:
@@ -60,5 +60,5 @@ stop_dynamic:
   only:
     - branches
   script:
-    - docker-compose --project-name ${MAIN_URL}_${CI_COMMIT_REF_SLUG} stop
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} stop
   when: manual
