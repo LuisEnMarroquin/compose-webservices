@@ -1,4 +1,8 @@
-version: '3'
+version: '3.7'
+
+volumes:
+  redis:
+
 services:
   app:
     build: .
@@ -6,3 +10,5 @@ services:
       - "5000:5000"
   redis:
     image: "redis:alpine"
+    volumes:
+      - redis:/data
