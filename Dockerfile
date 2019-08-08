@@ -13,10 +13,10 @@ WORKDIR /opt/app/
 # RUN pip install --no-cache-dir -r dependencies.txt
 
 # Copy Files
-# COPY . /opt/app/
-
-# Keep container running
-CMD tail -f /dev/null
+COPY . /opt/app/
 
 # Run app
-# CMD [ "python", "./index.py" ]
+RUN python ./index.py
+
+# Keep container running
+# CMD tail -f /dev/null

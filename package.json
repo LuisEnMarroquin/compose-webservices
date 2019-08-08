@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "scripts": {
-    "dev": "docker-compose --project-name python up -d --build --force-recreate --remove-orphans"
-  }
-}
