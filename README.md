@@ -1,6 +1,4 @@
-## Run app
+## [Run app](https://docs.docker.com/compose/gettingstarted/)
 ```shell
-docker build -t my-python-app .
-docker run -it --rm --name my-running-app my-python-app
-docker-compose --project-name python up -d --build --force-recreate --remove-orphans
+docker-compose up -d --build --force-recreate --remove-orphans
 ```

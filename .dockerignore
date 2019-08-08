@@ -1,0 +1,11 @@
+# Useless inside Docker
+*.md
+*.yml
+.gitignore
+.vscode
+Dockerfile
+
+# File Managers
+.DS_Store
+.directory
+desktop.ini
