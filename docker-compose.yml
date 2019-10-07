@@ -7,12 +7,11 @@ networks:
 
 services:
   codeserver:
-    command: code-server # if no auth add: --no-auth # if using proxy add: --allow-http
+    command: code-server --no-auth # if using proxy add: --allow-http
     container_name: code
     environment:
       LETSENCRYPT_EMAIL: ${MY_EMAIL}
       LETSENCRYPT_HOST: ${FULL_URL}
-      PASSWORD: ${PASSWORD}
       VIRTUAL_HOST: ${FULL_URL}
     image: codercom/code-server
     ports:
