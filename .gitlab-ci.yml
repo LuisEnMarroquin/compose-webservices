@@ -6,24 +6,23 @@ stages:
 variables:
   PRO_NAME: codeserver
   FULL_URL: code.marroquin.dev
-  MY_EMAIL: luis@marroquin.dev
 
-.variables_master: &master_variables
+.variables: &deploy_variables
   stage: deploy
   only:
     - master
   tags:
     - production
-deploy_master:
-  <<: *master_variables
+deploy:
+  <<: *deploy_variables
   script:
     - docker-compose --project-name ${PRO_NAME}_master up -d --build --force-recreate --remove-orphans
   environment:
     name: master
     url: https://${FULL_URL}
-    on_stop: stop_master
-stop_master:
-  <<: *master_variables
+    on_stop: stop
+stop:
+  <<: *deploy_variables
   when: manual
   script:
     - docker-compose --project-name ${PRO_NAME}_master stop
