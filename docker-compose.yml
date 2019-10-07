@@ -9,11 +9,6 @@ services:
   codeserver:
     command: code-server # if no auth add: --no-auth # if using proxy add: --allow-http
     container_name: code
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50' # 50% of a single core
-          memory: 500M
     environment:
       LETSENCRYPT_EMAIL: ${MY_EMAIL}
       LETSENCRYPT_HOST: ${FULL_URL}
