@@ -1,0 +1,21 @@
+version: '3.7'
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+services:
+  codeserver:
+    command: code-server --no-auth # if using proxy add: --allow-http
+    container_name: code
+    environment:
+      VIRTUAL_HOST: ${FULL_URL}
+      LETSENCRYPT_HOST: ${FULL_URL}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
+    image: codercom/code-server
+    ports:
+      8443
+    volumes:
+      - ~code/projects:/root/projects
+      - ~code/data:/data
