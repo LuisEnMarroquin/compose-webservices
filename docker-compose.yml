@@ -15,7 +15,7 @@ services:
       LETSENCRYPT_EMAIL: ${MY_EMAIL}
     image: codercom/code-server
     ports:
-      8443
+      - 8443
     volumes:
       - ~code/projects:/root/projects
       - ~code/data:/data
