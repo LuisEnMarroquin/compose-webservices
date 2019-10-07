@@ -17,5 +17,5 @@ services:
     ports:
       - 8443
     volumes:
-      - ~code/projects:/root/projects
-      - ~code/data:/data
+      - /root/code/data:/data
+      - /root/code/projects:/root/projects
