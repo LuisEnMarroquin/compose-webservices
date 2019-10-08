@@ -22,14 +22,8 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/so
 # install Yarn
 RUN sudo apt-get update && sudo apt-get install yarn -y
 
-# give user access to system folders
-RUN USER=$(whoami)
-RUN echo $USER
-RUN sudo chown -R $USER /usr/bin
-RUN sudo chown -R $USER /usr/lib/node_modules
-
-# npm global instalations
-RUN npm i -g nodemon standard
+# npm global installs
+RUN sudo npm i -g nodemon standard
 
 # list npm globals
 RUN npm list -g --depth 0
