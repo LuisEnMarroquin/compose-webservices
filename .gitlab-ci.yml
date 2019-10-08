@@ -4,7 +4,7 @@ stages:
   - deploy
 
 variables:
-  PRO_NAME: codeserver
+  PRO_NAME: code
   FULL_URL: code.marroquin.dev
 
 .variables: &deploy_variables

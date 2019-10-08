@@ -1,0 +1,10 @@
+*.md
+*.yml
+LICENSE
+.vscode
+.DS_Store
+CHANGELOG
+.directory
+.gitignore
+Dockerfile
+desktop.ini
