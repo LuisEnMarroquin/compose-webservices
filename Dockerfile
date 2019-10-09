@@ -21,12 +21,14 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/so
 
 # permissions
 RUN sudo chown -R coder /home/coder
+RUN sudo chown -R coder ~/.config
+RUN sudo chown -R coder ~/.npm
 
 # install Yarn
 RUN sudo apt-get update && sudo apt-get install yarn -y
 
 # npm global installs
-RUN sudo npm i -g nodemon standard yo gulp @microsoft/generator-sharepoint
+RUN sudo npm i -g nodemon standard yo gulp@3 @microsoft/generator-sharepoint
 
 # list npm globals
 RUN sudo npm list -g --depth 0
@@ -42,6 +44,7 @@ RUN g++ --version
 
 # watch large workspace VSCode
 # RUN cat /proc/sys/fs/inotify/max_user_watches
+RUN cd /etc && ls -a
 # RUN sudo echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
 # RUN sudo sysctl -p
 RUN cat /proc/sys/fs/inotify/max_user_watches
