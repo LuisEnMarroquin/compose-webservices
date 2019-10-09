@@ -29,7 +29,7 @@ RUN sudo apt-get update && sudo apt-get install yarn -y
 RUN sudo npm i -g nodemon standard yo gulp @microsoft/generator-sharepoint
 
 # list npm globals
-RUN npm list -g --depth 0
+RUN sudo npm list -g --depth 0
 
 # software versions
 RUN node -v
@@ -41,9 +41,9 @@ RUN gcc --version
 RUN g++ --version
 
 # watch large workspace VSCode
-RUN cat /proc/sys/fs/inotify/max_user_watches
-RUN sudo echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
-RUN sudo sysctl -p
+# RUN cat /proc/sys/fs/inotify/max_user_watches
+# RUN sudo echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
+# RUN sudo sysctl -p
 RUN cat /proc/sys/fs/inotify/max_user_watches
 
 # free disk space
