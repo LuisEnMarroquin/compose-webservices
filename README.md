@@ -22,12 +22,12 @@ remote server, accessible through the browser.
 
 [Create a Droplet](https://m.do.co/c/856dc39cd657)
 
-## Known Issues
+### Known Issues
 
 - Creating custom VS Code extensions and debugging them doesn't work.
 - Extension profiling and tips are currently disabled.
 
-## Extensions
+### Extensions
 
 `code-server` does not provide access to the official
 [Visual Studio Marketplace](https://marketplace.visualstudio.com/vscode). Instead,

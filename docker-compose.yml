@@ -13,14 +13,14 @@ volumes:
 services:
   codeserver:
     build: .
-    command: code-server --no-auth # if using proxy add: --allow-http
+    command: code-server --no-auth --disable-telemetry # if using proxy add: --allow-http
     container_name: code
     environment:
       LETSENCRYPT_EMAIL: ${MY_EMAIL}
       LETSENCRYPT_HOST: ${FULL_URL}
       VIRTUAL_HOST: ${FULL_URL}
     ports:
-      - 8443
+      - ${PORT:-9999:8443}
     restart: unless-stopped
     volumes:
       - data:/data
