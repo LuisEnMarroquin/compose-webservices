@@ -19,11 +19,6 @@ RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 # add Yarn to OS registry
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-# permissions
-RUN sudo chown -R coder /home/coder
-RUN sudo chown -R coder ~/.config
-RUN sudo chown -R coder ~/.npm
-
 # install Yarn
 RUN sudo apt-get update && sudo apt-get install yarn -y
 
@@ -32,6 +27,11 @@ RUN sudo npm i -g nodemon standard yo gulp@3 @microsoft/generator-sharepoint
 
 # list npm globals
 RUN sudo npm list -g --depth 0
+
+# permissions
+RUN sudo chown -R coder /home/coder
+RUN sudo chown -R coder ~/.config
+RUN sudo chown -R coder ~/.npm
 
 # software versions
 RUN node -v
