@@ -15,6 +15,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-12345678}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS:-12345678}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
+      LETSENCRYPT_HOST: ${FULL_URL}
+      VIRTUAL_HOST: ${FULL_URL}
     ports:
       - 27017
     restart: unless-stopped
