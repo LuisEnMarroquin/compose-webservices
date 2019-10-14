@@ -1,0 +1,17 @@
+**/*.md
+**/*.yml
+**/LICENSE
+**/Dockerfile
+**/.gitignore
+**/.dockerignore
+
+# Folders
+**/.git
+**/.github
+**/.gitlab
+**/.vscode
+
+# File managers
+**/.DS_Store
+**/.directory
+**/desktop.ini

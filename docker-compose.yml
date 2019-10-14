@@ -1,0 +1,39 @@
+version: "3.7"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+volumes:
+  mongo: # Database
+  mongoc: # Mongo config
+
+services:
+  mongo:
+    image: mongo:4.2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-12345678}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS:-12345678}
+    ports:
+      - 27017
+    restart: unless-stopped
+    volumes:
+      - mongo:/data/db
+      - mongoc:/data/configdb
+  express:
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo # HTTP Basic Auth # MongoDB Connection Auth Config
+      ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_USER:-12345678}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_PASS:-12345678}
+      ME_CONFIG_SITE_SESSIONSECRET: ${SESSIONSECRET:-12345678}
+      ME_CONFIG_SITE_COOKIESECRET: ${COOKIESECRET:-12345678}
+      LETSENCRYPT_EMAIL: ${MY_EMAIL}
+      LETSENCRYPT_HOST: db.${FULL_URL}
+      VIRTUAL_HOST: db.${FULL_URL}
+    image: mongo-express:latest
+    ports:
+      - 8081
+    restart: unless-stopped

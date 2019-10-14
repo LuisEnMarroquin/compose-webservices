@@ -1,0 +1,31 @@
+image: docker/compose:1.25.0-rc2
+
+stages:
+  - deploy
+
+variables:
+  PRO_NAME: mongo
+  FULL_URL: mongo.marroquin.dev
+
+.variables_master: &master_variables
+  stage: deploy
+  only:
+    - master
+  tags:
+    - production
+deploy_master:
+  <<: *master_variables
+  script:
+    - docker-compose --project-name ${PRO_NAME}_${CI_COMMIT_REF_NAME} up -d --build --force-recreate --remove-orphans
+  environment:
+    name: master
+    url: https://${FULL_URL}
+    on_stop: stop_master
+stop_master:
+  <<: *master_variables
+  when: manual
+  script:
+    - docker-compose --project-name ${PRO_NAME}_${CI_COMMIT_REF_NAME} stop
+  environment:
+    name: master
+    action: stop
