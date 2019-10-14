@@ -18,6 +18,7 @@ services:
       LETSENCRYPT_EMAIL: ${MY_EMAIL}
       LETSENCRYPT_HOST: ${FULL_URL}
       VIRTUAL_HOST: ${FULL_URL}
+      VIRTUAL_PORT: 27017
     ports:
       - 27017
     restart: unless-stopped
