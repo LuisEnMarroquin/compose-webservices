@@ -1,18 +1,19 @@
-FROM node:10.15.1
+FROM node:lts-alpine
 
+# Tell which port expose (this does nothing)
 EXPOSE 3000
 
-RUN npm i npm@latest -g
-
-RUN mkdir /opt/app && chown node:node /opt/app
+# Set working directory
 WORKDIR /opt/app
 
-USER node
+# Copy only this for cache
+COPY package.json package-lock.json ./
 
-COPY package.json package-lock.json* ./
+# Install dependencies
+RUN npm install --production --no-optional --ignore-scripts --no-shrinkwrap
 
-RUN npm install --no-optional && npm cache clean --force
+# Copy everything else
+COPY . ./
 
-COPY . .
-
-CMD [ "node", "./bin/www" ]
+# Start app
+CMD [ "node", "./bin/www.js" ]
