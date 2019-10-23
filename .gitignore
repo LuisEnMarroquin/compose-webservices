@@ -82,3 +82,11 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# No shrinkwrap
+npm-shrinkwrap.json
+
+# File managers
+.DS_Store
+.directory
+desktop.ini

@@ -1,8 +1,12 @@
-.git
-.gitignore
-.dockerignore
-*Dockerfile*
-node_modules
+# Files
+*.md
+*.yml
 LICENSE
-README.md
-nginx
+.gitignore
+*Dockerfile*
+.dockerignore
+
+# Folders
+.git
+.vscode
+node_modules

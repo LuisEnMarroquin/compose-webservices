@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 
-# Tell which port expose (this does nothing)
+# Tell which port expose
 EXPOSE 3000
 
 # Set working directory
@@ -16,4 +16,4 @@ RUN npm install --production --no-optional --ignore-scripts --no-shrinkwrap
 COPY . ./
 
 # Start app
-CMD [ "node", "./bin/www.js" ]
+CMD [ "node", "./index.js" ]
