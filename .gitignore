@@ -1,0 +1,7 @@
+# File managers
+.DS_Store
+.directory
+desktop.ini
+
+# Secret
+.env

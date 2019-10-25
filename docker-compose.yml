@@ -1,0 +1,46 @@
+version: '3.7'
+
+volumes:
+  certs:
+  vhost:
+  htmls:
+
+networks:
+  default:
+    name: nginx-proxy
+
+services:
+  proxy:
+    container_name: nginx_proxy
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - htmls:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  letsencrypt:
+    container_name: nginx_letsencrypt
+    depends_on:
+      - proxy
+    environment:
+      - DEFAULT_EMAIL=${EMAIL}
+      - NGINX_PROXY_CONTAINER=nginx_proxy
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - htmls:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  whoami:
+    container_name: nginx_whoami
+    depends_on:
+      - letsencrypt
+    environment:
+      - VIRTUAL_HOST=whoami.${DOMAIN}
+      - LETSENCRYPT_HOST=whoami.${DOMAIN}
+    image: jwilder/whoami
