@@ -4,6 +4,12 @@ networks:
   default:
     name: nginx-proxy
 
+volumes:
+  certs:
+  dhpar:
+  vhost:
+  htmls:
+
 services:
   proxy:
     container_name: nginx
@@ -14,6 +20,7 @@ services:
     restart: unless-stopped
     volumes:
       - certs:/etc/nginx/certs
+      - dhpar:/etc/nginx/dhparam
       - vhost:/etc/nginx/vhost.d
       - htmls:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
@@ -40,90 +47,3 @@ services:
       - LETSENCRYPT_HOST=whoami.${DOMAIN}
     image: jwilder/whoami
     restart: unless-stopped
-  code:
-    build: .
-    container_name: code
-    command: code-server --no-auth --disable-telemetry
-    environment:
-      LETSENCRYPT_HOST: code.${DOMAIN}
-      VIRTUAL_HOST: code.${DOMAIN}
-    ports:
-      - 8443
-    restart: unless-stopped
-    volumes:
-      - coded:/data
-      - coder:/root/projects
-      - codeh:/home/coder/project
-  # gitlab:
-  #   container_name: gitlab_ce
-  #   depends_on:
-  #     - letsencrypt
-  #   environment:
-  #     - VIRTUAL_HOST=git.${DOMAIN}
-  #     - LETSENCRYPT_HOST=git.${DOMAIN}
-  #   image: gitlab/gitlab-ce:latest
-  #   ports:
-  #     - 80
-  #   restart: unless-stopped
-  #   volumes:
-  #     - gconf:/etc/gitlab
-  #     - glogs:/var/log/gitlab
-  #     - gdata:/var/opt/gitlab
-  portainer:
-    container_name: portainer
-    command: -H unix:///var/run/docker.sock --admin-password $$2y$$05$$M0SIqQuCtV3IUtek4bzOOe8mJHOssux0Q.cbGLGhA3AW7vN0gc/7C
-    depends_on:
-      - letsencrypt
-    environment:
-      VIRTUAL_HOST: portainer.${DOMAIN}
-      LETSENCRYPT_HOST: portainer.${DOMAIN}
-    image: portainer/portainer:latest
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-    restart: unless-stopped
-    volumes:
-      - portd:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-  netdata:
-    container_name: netdata
-    environment:
-      VIRTUAL_HOST: netdata.${DOMAIN}
-      LETSENCRYPT_HOST: netdata.${DOMAIN}
-    image: netdata/netdata:latest
-    ports:
-      - 19999
-    cap_add:
-      - SYS_PTRACE
-    # security_opt:
-    #   - apparmor:unconfined
-    volumes:
-      - nesys:/host/sys:ro
-      - nepro:/host/proc:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-  jenkins:
-    container_name: jenkins
-    environment:
-      VIRTUAL_PORT: 8080
-      VIRTUAL_HOST: jenkins.${DOMAIN}
-      LETSENCRYPT_HOST: jenkins.${DOMAIN}
-    image: jenkinsci/blueocean
-    ports:
-      - 8080
-    user: root
-    volumes:
-      - jenks:/var/jenkins_home
-
-volumes:
-  certs:
-  vhost:
-  htmls:
-  gconf:
-  glogs:
-  gdata:
-  portd:
-  coded:
-  codeh:
-  coder:
-  nepro:
-  nesys:
-  jenks:

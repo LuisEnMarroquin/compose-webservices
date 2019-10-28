@@ -1,0 +1,26 @@
+version: '3.7'
+
+networks:
+  default:
+    name: nginx-proxy
+
+volumes:
+  data:
+  root:
+  home:
+
+services:
+  code:
+    build: .
+    container_name: codeserver
+    command: code-server --no-auth --disable-telemetry
+    environment:
+      LETSENCRYPT_HOST: code.${DOMAIN}
+      VIRTUAL_HOST: code.${DOMAIN}
+    ports:
+      - 8443
+    restart: unless-stopped
+    volumes:
+      - data:/data
+      - root:/root/projects
+      - home:/home/coder/project

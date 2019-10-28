@@ -1,0 +1,25 @@
+version: '3.7'
+
+networks:
+  default:
+    name: nginx-proxy
+
+volumes:
+  etc:
+  log:
+  opt:
+
+services:
+  gitlab:
+    container_name: gitlab
+    environment:
+      - VIRTUAL_HOST=gitlab.${DOMAIN}
+      - LETSENCRYPT_HOST=gitlab.${DOMAIN}
+    image: gitlab/gitlab-ce
+    ports:
+      - 80
+    restart: unless-stopped
+    volumes:
+      - etc:/etc/gitlab
+      - log:/var/log/gitlab
+      - opt:/var/opt/gitlab

@@ -1,7 +1,7 @@
-# File managers
+# Secret
+.env
+
+# Trash
 .DS_Store
 .directory
 desktop.ini
-
-# Secret
-.env

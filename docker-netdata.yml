@@ -1,0 +1,26 @@
+version: '3.7'
+
+networks:
+  default:
+    name: nginx-proxy
+
+volumes:
+  sys:
+  proc:
+
+services:
+  netdata:
+    cap_add:
+      - SYS_PTRACE
+    container_name: netdata
+    environment:
+      VIRTUAL_HOST: netdata.${DOMAIN}
+      LETSENCRYPT_HOST: netdata.${DOMAIN}
+    image: netdata/netdata
+    ports:
+      - 19999
+    restart: unless-stopped
+    volumes:
+      - sys:/host/sys:ro
+      - proc:/host/proc:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro

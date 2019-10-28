@@ -1,0 +1,23 @@
+version: '3.7'
+
+networks:
+  default:
+    name: nginx-proxy
+
+volumes:
+  data:
+
+services:
+  portainer:
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock --admin-password $$2y$$05$$RpTBPlqoSvPf9svbOIUDlePMilLXfWVxLHqu4O2q/6EtVz4QBdG96
+    environment:
+      VIRTUAL_HOST: portainer.${DOMAIN}
+      LETSENCRYPT_HOST: portainer.${DOMAIN}
+    image: portainer/portainer
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    restart: unless-stopped
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock

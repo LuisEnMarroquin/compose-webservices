@@ -1,0 +1,25 @@
+version: '3.7'
+
+networks:
+  default:
+    name: nginx-proxy
+
+volumes:
+  home:
+
+services:
+  jenkins:
+    container_name: jenkins
+    depends_on:
+      - letsencrypt
+    environment:
+      VIRTUAL_PORT: 8080
+      VIRTUAL_HOST: jenkins.${DOMAIN}
+      LETSENCRYPT_HOST: jenkins.${DOMAIN}
+    image: jenkinsci/blueocean
+    ports:
+      - 8080
+    restart: unless-stopped
+    user: root
+    volumes:
+      - home:/var/jenkins_home

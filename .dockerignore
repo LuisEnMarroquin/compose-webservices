@@ -1,11 +1,12 @@
 # Files
 *.md
-.env
 *.yml
+.gitignore
+
+# Trash
 .DS_Store
 .directory
-.gitignore
 desktop.ini
 
 # Folders
-.vscode
+.vscode/
