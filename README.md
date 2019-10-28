@@ -19,3 +19,11 @@ curl -H "Host: whoami.localhost.com" localhost
 EMAIL=example@example.com
 DOMAIN=example.com
 ```
+
+## Watch large workspace VSCode
+```shell
+cat /proc/sys/fs/inotify/max_user_watches
+sudo echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
+sudo sysctl -p
+cat /proc/sys/fs/inotify/max_user_watches
+```

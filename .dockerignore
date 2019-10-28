@@ -1,0 +1,11 @@
+# Files
+*.md
+.env
+*.yml
+.DS_Store
+.directory
+.gitignore
+desktop.ini
+
+# Folders
+.vscode
