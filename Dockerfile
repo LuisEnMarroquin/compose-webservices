@@ -2,13 +2,13 @@
 FROM codercom/code-server
 
 # install curl
-RUN sudo apt-get install curl -y
+RUN sudo apt install curl -y
 
 # add Node PPA
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 
 # install Node and its tools to build native addons
-RUN sudo apt-get install nodejs gcc g++ make -y
+RUN sudo apt install nodejs gcc g++ make -y
 
 # add Yarn PPA
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -17,10 +17,10 @@ RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
 # Update refs
-RUN sudo apt-get update
+RUN sudo apt update
 
 # install Yarn
-RUN sudo apt-get install yarn -y
+RUN sudo apt install yarn -y
 
 # npm global installs
 RUN sudo npm i -g nodemon standard
@@ -33,6 +33,9 @@ RUN sudo chown -R coder /home/coder
 RUN sudo chown -R coder ~/.config
 RUN sudo chown -R coder ~/.npm
 
+# install open jdk
+RUN sudo apt install default-jdk
+
 # software versions
 RUN node -v
 RUN npm -v
@@ -41,6 +44,7 @@ RUN python --version
 RUN python3 --version
 RUN gcc --version
 RUN g++ --version
+RUN java -version
 
 # free disk space
 RUN df -h
