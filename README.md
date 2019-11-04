@@ -51,7 +51,7 @@ docker-compose --project-name netdata -f docker-netdata.yml up -d --build --forc
 docker-compose --project-name portainer -f docker-portainer.yml up -d --build --force-recreate --remove-orphans
 ```
 
-Generate new htpasswd
+Generate new htpasswd, edit `command` property on `docker-portainer.yml`
 
 ```shell
 docker run --rm httpd:2.4-alpine htpasswd -nbB admin <password> | cut -d ":" -f 2
@@ -77,7 +77,11 @@ Add the following lines to this file (admin is required): `C:\Windows\System32\d
 
 ```shell
 127.0.0.1 localhost.com
+127.0.0.1 code.localhost.com
 127.0.0.1 whoami.localhost.com
+127.0.0.1 gitlab.localhost.com
+127.0.0.1 jenkins.localhost.com
+127.0.0.1 netdata.localhost.com
 127.0.0.1 portainer.localhost.com
 ```
 
