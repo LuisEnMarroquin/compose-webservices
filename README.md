@@ -18,7 +18,7 @@ DOMAIN=localhost.com
 At first you need to start the `nginx` service, it includes `nginx`, `letsencrypt` and `whoami` containers
 
 ```shell
-docker-compose --project-name nginx up -d --build --force-recreate --remove-orphans
+docker-compose --project-name nginx up -d --force-recreate --remove-orphans
 ```
 
 ### Coder
@@ -30,25 +30,25 @@ docker-compose --project-name code -f docker-codeserver.yml up -d --build --forc
 ### Gitlab
 
 ```shell
-docker-compose --project-name gitlab -f docker-gitlab.yml up -d --build --force-recreate --remove-orphans
+docker-compose --project-name gitlab -f docker-gitlab.yml up -d --force-recreate --remove-orphans
 ```
 
 ### Jenkins
 
 ```shell
-docker-compose --project-name jenkins -f docker-jenkins.yml up -d --build --force-recreate --remove-orphans
+docker-compose --project-name jenkins -f docker-jenkins.yml up -d --force-recreate --remove-orphans
 ```
 
 ### Netdata
 
 ```shell
-docker-compose --project-name netdata -f docker-netdata.yml up -d --build --force-recreate --remove-orphans
+docker-compose --project-name netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans
 ```
 
 ### Portainer
 
 ```shell
-docker-compose --project-name portainer -f docker-portainer.yml up -d --build --force-recreate --remove-orphans
+docker-compose --project-name portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
 ```
 
 Generate new htpasswd, edit `command` property on `docker-portainer.yml`

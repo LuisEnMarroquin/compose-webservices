@@ -13,9 +13,9 @@ services:
   gitlab:
     container_name: gitlab
     environment:
-      - VIRTUAL_PORT: 80
-      - VIRTUAL_HOST: gitlab.${DOMAIN}
-      - LETSENCRYPT_HOST: gitlab.${DOMAIN}
+      VIRTUAL_PORT: 80
+      VIRTUAL_HOST: gitlab.${DOMAIN}
+      LETSENCRYPT_HOST: gitlab.${DOMAIN}
     image: gitlab/gitlab-ce
     ports:
       - 80

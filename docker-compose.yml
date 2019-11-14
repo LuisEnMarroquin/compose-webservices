@@ -29,8 +29,8 @@ services:
     depends_on:
       - proxy
     environment:
-      - DEFAULT_EMAIL: ${EMAIL}
-      - NGINX_PROXY_CONTAINER: nginx
+      DEFAULT_EMAIL: ${EMAIL}
+      NGINX_PROXY_CONTAINER: nginx
     image: jrcs/letsencrypt-nginx-proxy-companion
     restart: unless-stopped
     volumes:
@@ -43,7 +43,7 @@ services:
     depends_on:
       - letsencrypt
     environment:
-      - VIRTUAL_HOST: whoami.${DOMAIN}
-      - LETSENCRYPT_HOST: whoami.${DOMAIN}
+      VIRTUAL_HOST: whoami.${DOMAIN}
+      LETSENCRYPT_HOST: whoami.${DOMAIN}
     image: jwilder/whoami
     restart: unless-stopped
