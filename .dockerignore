@@ -13,3 +13,5 @@ desktop.ini
 
 # Folders
 .vscode/
+.github/
+.gitlab/
