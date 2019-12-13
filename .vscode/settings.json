@@ -4,6 +4,10 @@
   "files.insertFinalNewline": true,
   "editor.detectIndentation": false,
   "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    "**/yarn.lock": true,
+    "**/package-lock.json": true
+  },
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.directory": true,

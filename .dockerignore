@@ -4,7 +4,7 @@
 LICENSE
 CHANGELOG
 .gitignore
-Dockerfile
+*Dockerfile*
 
 # Trash
 .DS_Store
@@ -12,6 +12,8 @@ Dockerfile
 desktop.ini
 
 # Folders
+.git/
 .vscode/
 .github/
 .gitlab/
+node_modules/

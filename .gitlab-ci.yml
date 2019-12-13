@@ -1,8 +1,5 @@
 image: docker/compose:1.25.0-rc4
 
-stages:
-  - deploy
-
 variables:
   PRO_NAME: code
   FULL_URL: code.marroquin.dev
@@ -21,9 +18,9 @@ deploy:
     name: master
     url: https://${FULL_URL}
     on_stop: stop
+  when: manual
 stop:
   <<: *deploy_variables
-  when: manual
   script:
     - docker-compose --project-name ${PRO_NAME} stop
   environment:
