@@ -1,0 +1,63 @@
+image: tmaier/docker-compose:latest
+
+stages:
+  - deploy
+
+variables:
+  MAIN_URL: wordpress
+  BASE_URL: marroquin.dev
+  BRANCH: ${CI_COMMIT_REF_SLUG}
+  # Dont edit the following
+  WP_PORT: 80
+  DB_PORT: 9000
+
+.variables_all: &variables
+  stage: deploy
+  tags:
+    - production
+
+deploy_master:
+  <<: *variables
+  environment:
+    url: https://${MAIN_URL}.${BASE_URL}
+    name: master
+    on_stop: stop_master
+  only:
+    - master
+  script:
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} up -d --force-recreate --remove-orphans
+stop_master:
+  <<: *variables
+  environment:
+    name: master
+    action: stop
+  only:
+    - master
+  script:
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} stop
+  when: manual
+
+deploy_dynamic:
+  <<: *variables
+  environment:
+    url: https://${BRANCH}.${MAIN_URL}.${BASE_URL}
+    name: dynamic
+    on_stop: stop_dynamic
+  except:
+    - master
+  only:
+    - branches
+  script:
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} up -d --force-recreate --remove-orphans
+stop_dynamic:
+  <<: *variables
+  environment:
+    name: dynamic
+    action: stop
+  except:
+    - master
+  only:
+    - branches
+  script:
+    - docker-compose --project-name ${MAIN_URL}_${BRANCH} stop
+  when: manual

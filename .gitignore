@@ -1,7 +1,12 @@
 # Secret
-.env
+# .env
 
 # Trash
 .DS_Store
 .directory
 desktop.ini
+
+# Lockfiles
+yarn.lock
+package-lock.json
+npm-shrinkwrap.json
