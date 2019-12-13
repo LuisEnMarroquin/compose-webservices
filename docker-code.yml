@@ -12,7 +12,7 @@ volumes:
 services:
   code:
     build: .
-    container_name: codeserver
+    container_name: code
     command: code-server --no-auth --disable-telemetry
     environment:
       LETSENCRYPT_HOST: code.${DOMAIN}

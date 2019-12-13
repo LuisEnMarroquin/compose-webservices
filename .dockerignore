@@ -1,7 +1,10 @@
 # Files
 *.md
 *.yml
+LICENSE
+CHANGELOG
 .gitignore
+Dockerfile
 
 # Trash
 .DS_Store
