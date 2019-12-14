@@ -1,6 +1,5 @@
 const compression = require('compression')
 const mongoose = require('mongoose')
-const { existsSync } = require('fs')
 const express = require('express')
 const helmet = require('helmet')
 const { join } = require('path')
@@ -22,20 +21,9 @@ var DB_NAME = 'nginx'
 var DATABASE = `mongodb://localhost:27017/${DB_NAME}`
 if (process.env.PRODUCTION) DATABASE = `mongodb://mongo/${DB_NAME}`
 
-try {
-  if (existsSync('./build')) { // If build folder exists
-    app.use(express.static(join(__dirname, 'build'))) // Serve static files
-    app.get('/*', function (req, res) { // Serving app with Client-Side Routing
-      res.sendFile(join(__dirname, 'build', 'index.html')) // Serve file index.html
-    })
-  } else {
-    app.get('/*', (req, res) => {
-      res.status(404).json({ message: 'The front has not been build' })
-    })
-  }
-} catch (error) {
-  console.error(error)
-}
+app.get('/*', function (req, res) { // Serving app with Client-Side Routing
+  res.sendFile(join(__dirname, 'index.html')) // Serve file index.html
+})
 
 // https://mongoosejs.com/docs/deprecations.html
 mongoose.set('useUnifiedTopology', true)

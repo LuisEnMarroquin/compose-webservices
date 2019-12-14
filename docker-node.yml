@@ -6,26 +6,26 @@ volumes:
 
 services:
   mongo:
-    image: mongo:4.0.3 # Last version licensed as AGPL version 3
-    # environment:
-      # MONGO_INITDB_ROOT_USERNAME: "root"
-      # MONGO_INITDB_ROOT_PASSWORD: "123456"
+    container_name: mongo
+    image: mongo:4.0.3 # Lastest licensed as AGPLv3
     volumes:
       - mongo:/data/db
       - mongoc:/data/configdb
-  app:
+  node:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: build/node.Dockerfile
+    container_name: node
     depends_on:
       - mongo
     environment:
       PRODUCTION: "true"
-  proxy:
+  nginx:
     build:
       context: .
-      dockerfile: nginx.Dockerfile
+      dockerfile: build/nginx.Dockerfile
+    container_name: nginx
     depends_on:
-      - app
+      - node
     ports:
       - 80:80

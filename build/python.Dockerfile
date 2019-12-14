@@ -14,13 +14,13 @@ ENV FLASK_RUN_HOST 0.0.0.0
 RUN apk add --no-cache gcc musl-dev linux-headers
 
 # Copy only dependencies file for cache
-COPY requirements.txt .
+COPY python/requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy Files
-COPY . .
+COPY python/. .
 
 # Run app
 CMD ["flask", "run"]

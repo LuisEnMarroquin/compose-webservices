@@ -1,28 +1,26 @@
 image: docker/compose:1.25.0-rc4
 
 variables:
-  PRO_NAME: code
-  FULL_URL: code.marroquin.dev
+  DOMAIN: marroquin.dev
 
-.variables: &deploy_variables
-  stage: deploy
+.job_variables: &variables
   only:
     - master
   tags:
     - production
-deploy:
-  <<: *deploy_variables
-  script:
-    - docker-compose --project-name ${PRO_NAME} up -d --build --force-recreate --remove-orphans
-  environment:
-    name: master
-    url: https://${FULL_URL}
-    on_stop: stop
   when: manual
-stop:
-  <<: *deploy_variables
-  script:
-    - docker-compose --project-name ${PRO_NAME} stop
+
+portainer:
+  <<: *variables
   environment:
-    name: master
-    action: stop
+    name: portainer
+    url: https://portainer.${DOMAIN}
+  script:
+    - docker-compose --project-name portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
+
+netdata:
+  environment:
+    name: netdata
+    url: https://netdata.${DOMAIN}
+  script:
+    - docker-compose --project-name netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans

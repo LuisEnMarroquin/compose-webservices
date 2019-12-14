@@ -13,10 +13,10 @@ volumes:
 services:
   mysql: # Database service name
     environment:
-      MYSQL_USER: ${user}
-      MYSQL_DATABASE: ${db}
-      MYSQL_PASSWORD: ${pass}
-      MYSQL_ROOT_PASSWORD: ${root}
+      MYSQL_USER: ${WPUSER:-abcd}
+      MYSQL_DATABASE: ${WPDTBS:-wordpressdatabase}
+      MYSQL_PASSWORD: ${WPPASS:-efgh}
+      MYSQL_ROOT_PASSWORD: ${WPROOT:-qwer}
     image: mysql:5.7
     networks:
       - internal
@@ -30,42 +30,35 @@ services:
       - mysql
     image: wordpress:latest
     ports:
-      - ${WP_PORT:-8000:80}
+      - 8000
     networks:
       - external
       - internal
     restart: unless-stopped
     environment:
-      WORDPRESS_DB_NAME: ${db}
+      WORDPRESS_DB_NAME: ${WPDTBS:-wordpressdatabase}
       WORDPRESS_DB_HOST: mysql # Database service name
-      WORDPRESS_DB_USER: ${user}
-      WORDPRESS_DB_PASSWORD: ${pass}
-      # Nginx SSL Proxy
-      VIRTUAL_HOST: ${BRANCHES}.${MAIN_URL}.${BASE_URL}
-      LETSENCRYPT_HOST: ${BRANCHES}.${MAIN_URL}.${BASE_URL}
+      WORDPRESS_DB_USER: ${WPUSER:-abcd}
+      WORDPRESS_DB_PASSWORD: ${WPPASS:-efgh}
+      VIRTUAL_HOST: wordpress.${DOMAIN}
+      LETSENCRYPT_HOST: wordpress.${DOMAIN}
     volumes:
       - wordpress:/var/www/html
   phpmyadmin:
     depends_on:
-      - mysql
       - wordpress
     environment:
       PMA_HOST: mysql:3306 # Database service name : database port
-      PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page.
-      # Manual login
-      MYSQL_USER: ${user}
-      MYSQL_PASSWORD: ${pass}
-      MYSQL_ROOT_PASSWORD: ${root}
-      # Nginx SSL Proxy
-      VIRTUAL_HOST: db.${BRANCHES}.${MAIN_URL}.${BASE_URL}
-      LETSENCRYPT_HOST: db.${BRANCHES}.${MAIN_URL}.${BASE_URL}
-      # Auto login
-      # PMA_USER: ${user}
-      # PMA_PASSWORD: ${pass}
+      PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page
+      MYSQL_USER: ${WPUSER:-abcd}
+      MYSQL_PASSWORD: ${WPPASS:-efgh}
+      MYSQL_ROOT_PASSWORD: ${WPROOT:-qwer}
+      VIRTUAL_HOST: db.wordpress.${DOMAIN}
+      LETSENCRYPT_HOST: db.wordpress.${DOMAIN}
     image: phpmyadmin/phpmyadmin:latest
     networks:
       - external
       - internal
     ports:
-      - ${DB_PORT:-9000:80}
+      - 9000
     restart: unless-stopped

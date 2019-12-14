@@ -7,13 +7,13 @@ EXPOSE 3000
 WORKDIR /opt/app
 
 # Copy only this for cache
-COPY package.json package-lock.json ./
+COPY node/package.json node/package-lock.json ./
 
 # Install dependencies
 RUN npm install --production --no-optional --ignore-scripts --no-shrinkwrap
 
 # Copy everything else
-COPY . ./
+COPY node/. ./
 
 # Start app
-CMD [ "node", "./index.js" ]
+CMD [ "node", "./server.js" ]

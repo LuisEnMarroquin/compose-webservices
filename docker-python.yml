@@ -4,11 +4,18 @@ volumes:
   redis:
 
 services:
-  app:
-    build: .
+  python:
+    build:
+      context: .
+      dockerfile: build/python.Dockerfile
+    container_name: python
+    environment:
+      VIRTUAL_HOST: python.${DOMAIN}
+      LETSENCRYPT_HOST: python.${DOMAIN}
     ports:
-      - "5000:5000"
+      - 5000
   redis:
+    container_name: redis
     image: "redis:alpine"
     volumes:
       - redis:/data

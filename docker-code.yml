@@ -11,7 +11,9 @@ volumes:
 
 services:
   code:
-    build: .
+    build:
+      context: .
+      dockerfile: build/code.Dockerfile
     container_name: code
     command: code-server --no-auth --disable-telemetry
     environment:

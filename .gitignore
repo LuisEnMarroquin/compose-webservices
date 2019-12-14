@@ -90,3 +90,6 @@ npm-shrinkwrap.json
 .DS_Store
 .directory
 desktop.ini
+
+# Secret variables
+.env

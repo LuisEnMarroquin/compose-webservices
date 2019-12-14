@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "docker": "docker-compose --project-name nginx_docker up -d --build --force-recreate --remove-orphans",
     "docker:prune": "docker system prune --volumes",
     "upgrade:latest": "npm --depth 9999 update --dev"
