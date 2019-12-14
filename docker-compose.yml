@@ -11,7 +11,7 @@ volumes:
   htmls:
 
 services:
-  proxy:
+  nginx:
     container_name: nginx
     image: jwilder/nginx-proxy
     ports:
@@ -27,7 +27,7 @@ services:
   letsencrypt:
     container_name: letsencrypt
     depends_on:
-      - proxy
+      - nginx
     environment:
       DEFAULT_EMAIL: ${EMAIL}
       NGINX_PROXY_CONTAINER: nginx

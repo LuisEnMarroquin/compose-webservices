@@ -21,7 +21,9 @@ At first you need to start the `nginx` service, it includes `nginx`, `letsencryp
 docker-compose --project-name nginx up -d --force-recreate --remove-orphans
 ```
 
-### Coder
+### Code Server
+
+This is [VS Code](https://github.com/Microsoft/vscode) running on a remote server, accessible through the browser.
 
 ```shell
 docker-compose --project-name code -f docker-code.yml up -d --build --force-recreate --remove-orphans
@@ -59,21 +61,29 @@ docker run --rm httpd:2.4-alpine htpasswd -nbB admin <password> | cut -d ":" -f 
 
 * If any password passed though cli has an `$` you must escape it using double `$$`
 
+### Node
+
+A simple docker-compose example combining Nginx, Node and Mongo, this works by itself and shouldn't run with the other nginx instance. This part was obtained from this [post](https://medium.com/faun/learn-docker-in-5-days-day-5-docker-compose-11af7b9298db).
+
+```shell
+docker-compose --project-name node -f docker-node.yml up -d --force-recreate --remove-orphans
+```
+
+* See nginx running at: [localhost](http://localhost.com)
+* See node app running at: [localhost/node](http://localhost.com/node)
+
 ## Test if it works locally
 
-You can test that this actually worked locally without any changes
-
-### Linux CLI
-
-If it works you'll see the something like `I'm 999999999` after running the following command:
+Use **cURL** it works you'll see the something like **I'm 999999999**:
 
 ```shell
 curl -H "Host: whoami.localhost.com" localhost
 ```
 
-### Windows
+If you have **Windows** or **macOS** add the following on:
 
-Add the following lines to this file (admin is required): `C:\Windows\System32\drivers\etc\hosts`
+* macOS: `/etc/hosts`
+* Windows: `C:\Windows\System32\drivers\etc\hosts`
 
 ```shell
 127.0.0.1 localhost.com
@@ -83,74 +93,16 @@ Add the following lines to this file (admin is required): `C:\Windows\System32\d
 127.0.0.1 jenkins.localhost.com
 127.0.0.1 netdata.localhost.com
 127.0.0.1 portainer.localhost.com
+127.0.0.1 wordpress.localhost.com
+127.0.0.1 db.wordpress.localhost.com
 ```
 
-Then visit `whoami.localhost.com` with any web browser
+Then visit [whoami.localhost.com](http://whoami.localhost.com)` with your favorite browser
+
+## Digital Ocean
+
+[Create a Droplet](https://m.do.co/c/856dc39cd657)
 
 ## Watch large workspace VSCode
 
 * Follow this [guide](https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc)
-
-## MySQL
-
-```shell
-# Get inside container
-docker exec -it wordpress_db_1 /bin/bash
-# Login into MySQL as root
-mysql -p # Will show you an interactive prompt to enter your password
-mysql -pp92ls8qkau28 # Add your password in the same line // No space between -p and the password text
-# Login into MySQL as user
-mysql -u exampleuser -h localhost -p
-mysql -u exampleuser -h localhost -pp92ls8qkau28
-```
-# code-server
-
-`code-server` is [VS Code](https://github.com/Microsoft/vscode) running on a
-remote server, accessible through the browser.
-
-- **Consistent environment:** Code on your Chromebook, tablet, and laptop with a
-  consistent dev environment. develop more easily for Linux if you have a
-  Windows or Mac, and pick up where you left off when switching workstations.
-- **Server-powered:** Take advantage of large cloud servers to speed up tests,
-  compilations, downloads, and more. Preserve battery life when you're on the go
-  since all intensive computation runs on your server.
-
-### Requirements
-
-- Minimum GLIBC version of 2.17 and a minimum version of GLIBCXX of 3.4.15.
-  - This is the main requirement for building Visual Studio Code. We cannot go lower than this.
-- A 64-bit host with at least 1GB RAM and 2 cores.
-  - 1 core hosts would work but not optimally.
-- Docker (for Docker versions of `code-server`).
-
-### Digital Ocean
-
-[Create a Droplet](https://m.do.co/c/856dc39cd657)
-
-### Known Issues
-
-- Creating custom VS Code extensions and debugging them doesn't work.
-- Extension profiling and tips are currently disabled.
-
-### Extensions
-
-`code-server` does not provide access to the official
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/vscode). Instead,
-Coder has created a custom extension marketplace that we manage for open-source
-extensions. If you want to use an extension with code-server that we do not have
-in our marketplace please look for a release in the extension’s repository,
-contact us to see if we have one in the works or, if you build an extension
-locally from open source, you can copy it to the `extensions` folder. If you
-build one locally from open-source please contribute it to the project and let
-us know so we can give you props! If you have your own custom marketplace, it is
-possible to point code-server to it by setting the `SERVICE_URL` and `ITEM_URL`
-environment variables.
-
-### Telemetry
-
-Use the `--disable-telemetry` flag to completely disable telemetry. We use the
-data collected to improve code-server.
-
-### Upgrading VS Code
-
-Please don't
