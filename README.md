@@ -1,6 +1,6 @@
 # compose-webservices
 
-Multiple webservices using `docker-compose`, behind `nginx-proxy`
+Multiple webservices using `docker-compose` or `swarm`, behind `nginx-proxy`
 
 ## Create `.env` file
 
@@ -18,12 +18,10 @@ DOMAIN=localhost.com
 At first you need to start the `nginx` service, it includes `nginx`, `letsencrypt` and `whoami` containers
 
 ```shell
-docker-compose --project-name nginx up -d --force-recreate --remove-orphans
+docker-compose --project-name nginx -f docker-compose.yml  up -d --force-recreate --remove-orphans
 ```
 
-### Code Server
-
-This is [VS Code](https://github.com/Microsoft/vscode) running on a remote server, accessible through the browser.
+### Coder
 
 ```shell
 docker-compose --project-name code -f docker-code.yml up -d --build --force-recreate --remove-orphans

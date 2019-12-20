@@ -46,4 +46,6 @@ services:
       VIRTUAL_HOST: whoami.${DOMAIN}
       LETSENCRYPT_HOST: whoami.${DOMAIN}
     image: jwilder/whoami
+    ports:
+      - 8000
     restart: unless-stopped

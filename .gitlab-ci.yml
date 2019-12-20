@@ -1,24 +1,61 @@
 image: docker/compose:1.25.0-rc4
 
-variables:
-  DOMAIN: marroquin.dev
-
-.job_variables: &variables
+.variables_swarm: &swarm
+  variables:
+    DOMAIN: softtek.marroquin.dev
+  only:
+    - master
+  tags:
+    - azure
+  when: manual
+.variables_compose: &compose
+  variables:
+    DOMAIN: marroquin.dev
   only:
     - master
   tags:
     - production
   when: manual
 
-portainer:
-  <<: *variables
+nginx-swarm:
+  <<: *swarm
+  environment:
+    name: nginx
+    url: https://whoami.${DOMAIN}
+  script:
+    - docker stack deploy -c docker-compose.yml nginx
+nginx-compose:
+  <<: *compose
+  environment:
+    name: nginx
+    url: https://whoami.${DOMAIN}
+  script:
+    - docker-compose --project-name nginx -f docker-compose.yml up -d --force-recreate --remove-orphans
+
+portainer-swarm:
+  <<: *swarm
+  environment:
+    name: portainer
+    url: https://portainer.${DOMAIN}
+  script:
+    - docker stack deploy -c docker-portainer.yml portainer
+portainer-compose:
+  <<: *compose
   environment:
     name: portainer
     url: https://portainer.${DOMAIN}
   script:
     - docker-compose --project-name portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
 
-netdata:
+netdata-swarm:
+  <<: *swarm
+  environment:
+    name: netdata
+    url: https://netdata.${DOMAIN}
+  script:
+    - docker stack deploy -c docker-netdata.yml netdata
+netdata-compose:
+  <<: *compose
   environment:
     name: netdata
     url: https://netdata.${DOMAIN}
