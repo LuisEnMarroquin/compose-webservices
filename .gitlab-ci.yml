@@ -76,3 +76,18 @@ netdata-compose:
     url: https://netdata.${DOMAIN}
   script:
     - docker-compose --project-name netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans
+
+wordpress-swarm:
+  <<: *swarm
+  environment:
+    name: wordpress
+    url: https://wordpress.${DOMAIN}
+  script:
+    - docker stack deploy -c docker-wordpress.yml wordpress
+wordpress-compose:
+  <<: *compose
+  environment:
+    name: wordpress
+    url: https://wordpress.${DOMAIN}
+  script:
+    - docker-compose --project-name wordpress -f docker-wordpress.yml up -d --force-recreate --remove-orphans

@@ -13,10 +13,10 @@ volumes:
 services:
   mysql: # Database service name
     environment:
-      MYSQL_USER: ${WPUSER:-abcd}
-      MYSQL_DATABASE: ${WPDTBS:-wordpressdatabase}
-      MYSQL_PASSWORD: ${WPPASS:-efgh}
-      MYSQL_ROOT_PASSWORD: ${WPROOT:-qwer}
+      MYSQL_USER: ${WP_USER:-admin}
+      MYSQL_DATABASE: ${WP_DATABASE:-default_db}
+      MYSQL_PASSWORD: ${WP_PASS:-12345678}
+      MYSQL_ROOT_PASSWORD: ${WP_ROOT:-root_pass}
     image: mysql:5.7
     networks:
       - internal
@@ -36,10 +36,10 @@ services:
       - internal
     restart: unless-stopped
     environment:
-      WORDPRESS_DB_NAME: ${WPDTBS:-wordpressdatabase}
+      WORDPRESS_DB_NAME: ${WP_DATABASE:-default_db}
       WORDPRESS_DB_HOST: mysql # Database service name
-      WORDPRESS_DB_USER: ${WPUSER:-abcd}
-      WORDPRESS_DB_PASSWORD: ${WPPASS:-efgh}
+      WORDPRESS_DB_USER: ${WP_USER:-admin}
+      WORDPRESS_DB_PASSWORD: ${WP_PASS:-12345678}
       VIRTUAL_HOST: wordpress.${DOMAIN}
       LETSENCRYPT_HOST: wordpress.${DOMAIN}
     volumes:
@@ -50,9 +50,9 @@ services:
     environment:
       PMA_HOST: mysql:3306 # Database service name : database port
       PMA_ARBITRARY: 1 # This will run phpMyAdmin with arbitrary server - allowing you to specify MySQL/MariaDB server on login page
-      MYSQL_USER: ${WPUSER:-abcd}
-      MYSQL_PASSWORD: ${WPPASS:-efgh}
-      MYSQL_ROOT_PASSWORD: ${WPROOT:-qwer}
+      MYSQL_USER: ${WP_USER:-admin}
+      MYSQL_PASSWORD: ${WP_PASS:-12345678}
+      MYSQL_ROOT_PASSWORD: ${WP_ROOT:-root_pass}
       VIRTUAL_HOST: db.wordpress.${DOMAIN}
       LETSENCRYPT_HOST: db.wordpress.${DOMAIN}
     image: phpmyadmin/phpmyadmin:latest
