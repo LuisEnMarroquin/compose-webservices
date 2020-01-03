@@ -32,6 +32,21 @@ nginx-compose:
   script:
     - docker-compose --project-name nginx -f docker-compose.yml up -d --force-recreate --remove-orphans
 
+whoami-swarm:
+  <<: *swarm
+  environment:
+    name: nginx
+    url: https://whoami.${DOMAIN}
+  script:
+    - docker stack deploy -c docker-whoami.yml whoami
+whoami-compose:
+  <<: *compose
+  environment:
+    name: nginx
+    url: https://whoami.${DOMAIN}
+  script:
+    - docker-compose --project-name whoami -f docker-whoami.yml up -d --force-recreate --remove-orphans
+
 portainer-swarm:
   <<: *swarm
   environment:

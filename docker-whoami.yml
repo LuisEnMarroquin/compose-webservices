@@ -1,0 +1,31 @@
+version: '3.7'
+
+networks:
+  default:
+    name: nginx-proxy
+
+volumes:
+  certs:
+  dhpar:
+  vhost:
+  htmls:
+
+services:
+  nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certs:/etc/nginx/certs
+      - dhpar:/etc/nginx/dhparam
+      - vhost:/etc/nginx/vhost.d
+      - htmls:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  whoami:
+    environment:
+      VIRTUAL_HOST: whoami.${DOMAIN}
+      LETSENCRYPT_HOST: whoami.${DOMAIN}
+    image: jwilder/whoami
+    ports:
+      - 8000
