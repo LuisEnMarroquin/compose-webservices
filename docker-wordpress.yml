@@ -12,6 +12,7 @@ volumes:
 
 services:
   mysql: # Database service name
+    container_name: wp_mysql
     environment:
       MYSQL_USER: ${WP_USER:-admin}
       MYSQL_DATABASE: ${WP_DATABASE:-default_db}
@@ -26,6 +27,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
   wordpress:
+    container_name: wp_app
     depends_on:
       - mysql
     image: wordpress:latest
@@ -45,6 +47,7 @@ services:
     volumes:
       - wordpress:/var/www/html
   phpmyadmin:
+    container_name: wp_admin
     depends_on:
       - wordpress
     environment:
