@@ -14,6 +14,4 @@ desktop.ini
 # Folders
 .git/
 .vscode/
-.github/
-.gitlab/
 node_modules/

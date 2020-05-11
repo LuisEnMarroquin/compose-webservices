@@ -1,6 +1,6 @@
 # compose-webservices
 
-Multiple webservices using `docker-compose` or `swarm`, behind `nginx-proxy`
+Multiple webservices using `docker-compose` behind `nginx-proxy`
 
 ## Create `.env` file
 
@@ -18,37 +18,37 @@ DOMAIN=localhost.com
 At first you need to start the `nginx` service, it includes `nginx`, `letsencrypt` and `whoami` containers
 
 ```shell
-docker-compose --project-name nginx -f docker-compose.yml  up -d --force-recreate --remove-orphans
+docker-compose -p nginx -f docker-compose.yml  up -d --force-recreate --remove-orphans
 ```
 
 ### Coder
 
 ```shell
-docker-compose --project-name code -f docker-code.yml up -d --build --force-recreate --remove-orphans
+docker-compose -p code -f docker-code.yml up -d --build --force-recreate --remove-orphans
 ```
 
 ### Gitlab
 
 ```shell
-docker-compose --project-name gitlab -f docker-gitlab.yml up -d --force-recreate --remove-orphans
+docker-compose -p gitlab -f docker-gitlab.yml up -d --force-recreate --remove-orphans
 ```
 
 ### Jenkins
 
 ```shell
-docker-compose --project-name jenkins -f docker-jenkins.yml up -d --force-recreate --remove-orphans
+docker-compose -p jenkins -f docker-jenkins.yml up -d --force-recreate --remove-orphans
 ```
 
 ### Netdata
 
 ```shell
-docker-compose --project-name netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans
+docker-compose -p netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans
 ```
 
 ### Portainer
 
 ```shell
-docker-compose --project-name portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
+docker-compose -p portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
 ```
 
 Generate new htpasswd, edit `command` property on `docker-portainer.yml`
@@ -61,10 +61,10 @@ docker run --rm httpd:2.4-alpine htpasswd -nbB admin <password> | cut -d ":" -f 
 
 ### Node
 
-A simple docker-compose example combining Nginx, Node and Mongo, this works by itself and shouldn't run with the other nginx instance. This part was obtained from this [post](https://medium.com/faun/learn-docker-in-5-days-day-5-docker-compose-11af7b9298db).
+A simple docker-compose example combining Nginx, Node and Mongo, this works by itself and shouldn't run with the other nginx instance. This part was obtained from [this post](https://medium.com/faun/learn-docker-in-5-days-day-5-docker-compose-11af7b9298db).
 
 ```shell
-docker-compose --project-name node -f docker-node.yml up -d --force-recreate --remove-orphans
+docker-compose -p node -f docker-node.yml up -d --force-recreate --remove-orphans
 ```
 
 * See nginx running at: [localhost](http://localhost.com)

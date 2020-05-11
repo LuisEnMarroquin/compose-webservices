@@ -1,13 +1,5 @@
 image: docker/compose:latest
 
-.variables_swarm: &swarm
-  variables:
-    DOMAIN: softtek.marroquin.dev
-  only:
-    - master
-  tags:
-    - azure
-  when: manual
 .variables_compose: &compose
   variables:
     DOMAIN: marroquin.dev
@@ -17,92 +9,42 @@ image: docker/compose:latest
     - production
   when: manual
 
-netdata-swarm:
-  <<: *swarm
-  environment:
-    name: netdata
-    url: https://netdata.${DOMAIN}
-  script:
-    - docker stack deploy -c docker-netdata.yml netdata
 netdata-compose:
   <<: *compose
   environment:
     name: netdata
     url: https://netdata.${DOMAIN}
   script:
-    - docker-compose --project-name netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans
+    - docker-compose -p netdata -f docker-netdata.yml up -d --force-recreate --remove-orphans
 
-nginx-swarm:
-  <<: *swarm
-  environment:
-    name: nginx
-    url: https://whoami.${DOMAIN}
-  script:
-    - docker stack deploy -c docker-compose.yml nginx
 nginx-compose:
   <<: *compose
   environment:
     name: nginx
     url: https://whoami.${DOMAIN}
   script:
-    - docker-compose --project-name nginx -f docker-compose.yml up -d --force-recreate --remove-orphans
+    - docker-compose -p nginx -f docker-compose.yml up -d --force-recreate --remove-orphans
 
-portainer-swarm:
-  <<: *swarm
-  environment:
-    name: portainer
-    url: https://portainer.${DOMAIN}
-  script:
-    - docker stack deploy -c docker-portainer.yml portainer
 portainer-compose:
   <<: *compose
   environment:
     name: portainer
     url: https://portainer.${DOMAIN}
   script:
-    - docker-compose --project-name portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
+    - docker-compose -p portainer -f docker-portainer.yml up -d --force-recreate --remove-orphans
 
-wetty-swarm:
-  <<: *swarm
-  environment:
-    name: wetty
-    url: https://wetty.${DOMAIN}
-  script:
-    - docker stack deploy -c docker-wetty.yml wetty
-wetty-compose:
-  <<: *compose
-  environment:
-    name: wetty
-    url: https://wetty.${DOMAIN}
-  script:
-    - docker-compose --project-name wetty -f docker-wetty.yml up -d --force-recreate --remove-orphans
-
-whoami-swarm:
-  <<: *swarm
-  environment:
-    name: nginx
-    url: https://whoami.${DOMAIN}
-  script:
-    - docker stack deploy -c docker-whoami.yml whoami
 whoami-compose:
   <<: *compose
   environment:
     name: nginx
     url: https://whoami.${DOMAIN}
   script:
-    - docker-compose --project-name whoami -f docker-whoami.yml up -d --force-recreate --remove-orphans
+    - docker-compose -p whoami -f docker-whoami.yml up -d --force-recreate --remove-orphans
 
-wordpress-swarm:
-  <<: *swarm
-  environment:
-    name: wordpress
-    url: https://wordpress.${DOMAIN}
-  script:
-    - docker stack deploy -c docker-wordpress.yml wordpress
 wordpress-compose:
   <<: *compose
   environment:
     name: wordpress
     url: https://wordpress.${DOMAIN}
   script:
-    - docker-compose --project-name wordpress -f docker-wordpress.yml up -d --force-recreate --remove-orphans
+    - docker-compose -p wordpress -f docker-wordpress.yml up -d --force-recreate --remove-orphans
