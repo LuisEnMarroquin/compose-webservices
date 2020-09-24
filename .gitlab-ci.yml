@@ -4,7 +4,7 @@ image: docker/compose:latest
   variables:
     DOMAIN: marroquin.dev
   only:
-    - master
+    - main
   tags:
     - production
   when: manual

@@ -83,7 +83,9 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# No shrinkwrap
+# No lockfiles
+yarn.lock
+package-lock.json
 npm-shrinkwrap.json
 
 # File managers
